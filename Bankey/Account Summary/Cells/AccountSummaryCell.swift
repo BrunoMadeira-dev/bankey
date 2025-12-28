@@ -10,6 +10,20 @@ import UIKit
 
 class AccountSummaryCell: UITableViewCell {
     
+    enum AccountType: String {
+        case Banking
+        case CreditCard
+        case Investment
+    }
+    
+    struct ViewModel {
+        let accountType: AccountType
+        let accountName: String
+        //let balance: Decimal
+    }
+    
+    let viewModel: ViewModel? = nil
+    
     //MARK: - First part of the cell
     let typeLabel = UILabel()
     let divider = UIView()
@@ -125,5 +139,27 @@ typeLabel.leadingAnchor.constraint (equalToSystemSpacingAfter: leadingAnchor, mu
         rootString.append(centString)
         
         return rootString
+    }
+}
+
+extension AccountSummaryCell {
+    func configure(with vm: ViewModel) {
+
+        typeLabel.text = vm.accountType.rawValue
+        
+        switch vm.accountType {
+        case .Banking:
+            divider.backgroundColor = appColor
+            balanceLabel.text = "Current Balance"
+            nameLabel.text = vm.accountName
+        case .CreditCard:
+            divider.backgroundColor = .systemOrange
+            balanceLabel.text = "Balance"
+            nameLabel.text = vm.accountName
+        case .Investment:
+            divider.backgroundColor = .systemPurple
+            balanceLabel.text = "Value"
+            nameLabel.text = vm.accountName
+        }
     }
 }
